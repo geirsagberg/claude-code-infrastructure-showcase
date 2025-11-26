@@ -2,7 +2,96 @@
 
 This guide explains how to configure and customize the hooks system for your project.
 
-## Quick Start Configuration
+## Global vs Per-Project Setup
+
+### Recommended: Global Setup
+
+**Hooks live in `~/.claude/hooks/`**
+
+**Benefits:**
+- ✅ Install dependencies once
+- ✅ Updates propagate to all projects automatically
+- ✅ Works like global MCP servers
+- ✅ Less maintenance overhead
+
+**How it works:**
+- Hook scripts execute from `~/.claude/hooks/`
+- Hooks use `$CLAUDE_PROJECT_DIR` to access project-specific data
+- Each project still has its own `skill-rules.json` configuration
+
+**Use global setup when:**
+- You want consistent hooks across all projects
+- You maintain multiple projects
+- You want easier updates
+
+### Alternative: Per-Project Setup
+
+**Hooks live in each project's `.claude/hooks/`**
+
+**Benefits:**
+- Projects can use different hook versions
+- Easier to share with team (in git)
+- Self-contained per project
+
+**Use per-project when:**
+- Projects need different hook behavior
+- You want hooks version-controlled with the project
+- You're working on a single project
+
+**This guide shows configuration for both approaches. Choose what works best for you.**
+
+---
+
+## Quick Start Configuration (Global)
+
+### 1. Register Hooks in ~/.claude/settings.json
+
+Create or update `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/skill-activation-prompt.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/post-tool-use-tracker.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 2. Install Dependencies
+
+```bash
+cd ~/.claude/hooks
+bun install  # or npm install
+```
+
+### 3. Set Execute Permissions
+
+```bash
+chmod +x ~/.claude/hooks/*.sh
+```
+
+---
+
+## Quick Start Configuration (Per-Project)
 
 ### 1. Register Hooks in .claude/settings.json
 

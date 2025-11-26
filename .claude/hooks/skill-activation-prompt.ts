@@ -43,6 +43,15 @@ async function main() {
         // Load skill rules
         const projectDir = process.env.CLAUDE_PROJECT_DIR || '$HOME/project';
         const rulesPath = join(projectDir, '.claude', 'skills', 'skill-rules.json');
+
+        // Check if skill-rules.json exists - if not, silently exit
+        try {
+            readFileSync(rulesPath, 'utf-8');
+        } catch {
+            // No skill rules in this project - exit silently
+            process.exit(0);
+        }
+
         const rules: SkillRules = JSON.parse(readFileSync(rulesPath, 'utf-8'));
 
         const matchedSkills: MatchedSkill[] = [];

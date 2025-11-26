@@ -168,6 +168,8 @@ dev/
 
 **Start with the two essential hooks** - they enable skill auto-activation and work out of the box.
 
+**Recommended:** Install hooks globally in `~/.claude/hooks/` to use across all projects.
+
 **👉 [Hook setup guide →](.claude/hooks/README.md)**
 
 ### 🤖 Agents (10)
@@ -266,10 +268,19 @@ Some hooks expect specific structures:
 **Recommended approach:**
 
 ### Phase 1: Skill Activation (15 min)
-1. Copy skill-activation-prompt hook
-2. Copy post-tool-use-tracker hook
-3. Update settings.json
-4. Install hook dependencies
+
+**Recommended: Global Setup**
+1. Copy hooks to `~/.claude/hooks/`
+2. Update `~/.claude/settings.json`
+3. Install dependencies once: `cd ~/.claude/hooks && bun install`
+4. Works across all projects automatically
+
+**Alternative: Per-Project Setup**
+1. Copy hooks to `.claude/hooks/` in each project
+2. Update `.claude/settings.json` in each project
+3. Install dependencies per project
+
+**See [Hooks README](.claude/hooks/README.md) for detailed instructions.**
 
 ### Phase 2: Add First Skill (10 min)
 1. Pick ONE relevant skill
